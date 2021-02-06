@@ -255,6 +255,7 @@ def create_venue_submission():
       phone=form.phone.data,
       genres=form.genres.data,
       facebook_link=form.facebook_link.data,
+      image_link=form.image_like.data
     )
 
     db.session.add(venue)
@@ -386,7 +387,7 @@ def edit_artist_submission(artist_id):
         if form[field].data:
           setattr(artist, field, form[field].data)
 
-    update_if_there(['name', 'phone', 'city', 'state', 'genres', 'facebook_link'])
+    update_if_there(['name', 'phone', 'city', 'state', 'genres', 'facebook_link', 'image_link'])
 
     db.session.add(artist)
     db.session.commit()
@@ -426,7 +427,7 @@ def edit_venue_submission(venue_id):
         if form[field].data:
           setattr(venue, field, form[field].data)
 
-    update_if_there(['name', 'phone', 'city', 'state', 'address', 'genres', 'facebook_link'])
+    update_if_there(['name', 'phone', 'city', 'state', 'address', 'genres', 'facebook_link', 'image_link'])
 
     db.session.add(venue)
     db.session.commit()
@@ -466,7 +467,8 @@ def create_artist_submission():
       state=form.state.data,
       phone=form.phone.data,
       genres=form.genres.data,
-      facebook_link=form.facebook_link.data
+      facebook_link=form.facebook_link.data,
+      image_link=form.image_link.data
     )
 
     db.session.add(artist)
