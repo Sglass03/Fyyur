@@ -10,11 +10,12 @@ from flask import Flask, render_template, request, Response, flash, redirect, ur
 from flask_sqlalchemy import SQLAlchemy
 import logging
 from logging import Formatter, FileHandler
-from flask_wtf import Form
+from flask_wtf import FlaskForm
 from forms import *
 from flask_migrate import Migrate
 from datetime import date
 from models import Venue, Artist, Show, db, app
+import sys
 
 # TODO: connect to a local postgresql database
 
@@ -48,7 +49,9 @@ app.jinja_env.filters['datetime'] = format_datetime
 
 @app.route('/')
 def index():
-  return render_template('pages/home.html')
+  venues = Venue.query.order_by(Venue.id.desc()).limit(3)
+
+  return render_template('pages/home.html', venues=venues)
 
 
 #  Venues
@@ -178,6 +181,7 @@ def create_venue_submission():
   form = VenueForm()
   
   try:
+
     venue = Venue(
       name=form.name.data,
       city=form.city.data,
@@ -186,7 +190,10 @@ def create_venue_submission():
       phone=form.phone.data,
       genres=form.genres.data,
       facebook_link=form.facebook_link.data,
-      image_link=form.image_like.data
+      image_link=form.image_link.data, 
+      website_link=form.website_link.data, 
+      seeking_talent=form.seeking_talent.data,
+      seeking_description=form.seeking_description.data
     )
 
     db.session.add(venue)
@@ -199,6 +206,7 @@ def create_venue_submission():
     db.session.rollback()
     # Error message
     flash('Venue ' + request.form['name'] + ' encountered an error and could not be listed. Crikey!')
+    print(sys.exc_info())
 
   finally: 
     db.session.close()
@@ -391,7 +399,6 @@ def create_artist_submission():
   try:
     form = ArtistForm()
 
-    print(form.city.data)
     artist = Artist(
       name=form.name.data,
       city=form.city.data,
@@ -399,7 +406,10 @@ def create_artist_submission():
       phone=form.phone.data,
       genres=form.genres.data,
       facebook_link=form.facebook_link.data,
-      image_link=form.image_link.data
+      image_link=form.image_link.data,
+      website_link=form.website_link.data, 
+      seeking_venue=form.seeking_venue.data,
+      seeking_description=form.seeking_description.data
     )
 
     db.session.add(artist)
@@ -412,7 +422,8 @@ def create_artist_submission():
     db.session.rollback()
 
     # TODO: on unsuccessful db insert, flash an error instead.
-    flash('An error occurred. Artist ' + data.name + ' could not be listed. Bummer dude')
+    flash('An error occurred. Artist ' + request.form['name'] + ' could not be listed. Bummer dude')
+    print(sys.exc_info())
 
   return render_template('pages/home.html')
 
