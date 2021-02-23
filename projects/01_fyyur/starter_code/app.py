@@ -326,7 +326,7 @@ def edit_artist_submission(artist_id):
         if form[field].data:
           setattr(artist, field, form[field].data)
 
-    update_if_there(['name', 'phone', 'city', 'state', 'genres', 'facebook_link', 'image_link'])
+    update_if_there(['name', 'phone', 'city', 'state', 'genres', 'facebook_link', 'image_link', 'website_link', 'seeking_venue', 'seeking_description'])
 
     db.session.add(artist)
     db.session.commit()
@@ -366,7 +366,7 @@ def edit_venue_submission(venue_id):
         if form[field].data:
           setattr(venue, field, form[field].data)
 
-    update_if_there(['name', 'phone', 'city', 'state', 'address', 'genres', 'facebook_link', 'image_link'])
+    update_if_there(['name', 'phone', 'city', 'state', 'address', 'genres', 'facebook_link', 'image_link', 'website_link', 'seeking_talent', 'seeking_description'])
 
     db.session.add(venue)
     db.session.commit()
