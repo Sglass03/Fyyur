@@ -1,14 +1,18 @@
 from datetime import datetime
-from flask_wtf import Form
+from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, SelectMultipleField, DateTimeField
+from wtforms.fields.core import BooleanField
+from wtforms.fields.simple import TextAreaField
 from wtforms.validators import DataRequired, AnyOf, URL
 
-class ShowForm(Form):
+class ShowForm(FlaskForm):
     artist_id = StringField(
-        'artist_id'
+        'artist_id',
+        validators=[DataRequired()]
     )
     venue_id = StringField(
-        'venue_id'
+        'venue_id',
+        validators=[DataRequired()]
     )
     start_time = DateTimeField(
         'start_time',
@@ -16,7 +20,7 @@ class ShowForm(Form):
         default= datetime.today()
     )
 
-class VenueForm(Form):
+class VenueForm(FlaskForm):
     name = StringField(
         'name', validators=[DataRequired()]
     )
@@ -117,7 +121,19 @@ class VenueForm(Form):
         'facebook_link', validators=[URL()]
     )
 
-class ArtistForm(Form):
+    website_link = StringField(
+        'website_link', validators=[URL()]
+    )
+
+    seeking_talent = BooleanField(
+        'seeking_talent', default = False
+    )
+
+    seeking_description = TextAreaField(
+        'seeking_description'
+    )
+
+class ArtistForm(FlaskForm):
     name = StringField(
         'name', validators=[DataRequired()]
     )
@@ -215,6 +231,18 @@ class ArtistForm(Form):
     facebook_link = StringField(
         # TODO implement enum restriction
         'facebook_link', validators=[URL()]
+    )
+
+    website_link = StringField(
+        'website_link', validators=[URL()]
+    )
+
+    seeking_venue = BooleanField(
+        'seeking_venue', default = False
+    )
+
+    seeking_description = TextAreaField(
+        'seeking_description'
     )
 
 # TODO IMPLEMENT NEW ARTIST FORM AND NEW SHOW FORM
