@@ -131,7 +131,7 @@ def drink_update(payload, id):
         drink.update()
         print("Updated!")
     except:
-        print("It broke!")
+        abort(500)
     
     return jsonify({
         'success': True, 
@@ -165,7 +165,7 @@ def drinks_delete(payload, id):
         drink.delete()
         print("Deleted!")
     except:
-        session.rollback()
+        abort(500)
     
     return jsonify({
         'success': True, 
