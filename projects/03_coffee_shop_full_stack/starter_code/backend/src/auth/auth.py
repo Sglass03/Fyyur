@@ -77,11 +77,15 @@ def get_token_auth_header():
     return true otherwise
 '''
 def check_permissions(permission, payload):
+    
+    if payload is None:
+        abort(401)
+        
     if 'permissions' not in payload:
-        abort(403)
+        abort(401)
 
     if permission not in payload['permissions']:
-        abort(403)
+        abort(401)
 
 '''
 @TODO implement verify_decode_jwt(token) method
@@ -146,7 +150,7 @@ def verify_decode_jwt(token):
             raise AuthError({
                 'code': 'invalid_header',
                 'description': 'Unable to parse authentication token.'
-            }, 400)
+            }, 401)
 
 
 '''

@@ -116,26 +116,23 @@ def drink_update(payload, id):
     title = body.get('title', None)
     recipe = json.dumps(body.get('recipe', None))
 
-    drink = Drink.query.filter(Drink.id == id).first()
-
-    print("Query:", drink)
+    drink = Drink.query.filter(Drink.id == id).all()
 
     if drink is None:
         print("ID not found")
         abort(404)
 
-
     try:
-        drink.title = title
-        drink.recipe = recipe
-        drink.update()
+        drink[0].title = title
+        drink[0].recipe = recipe
+        drink[0].update()
         print("Updated!")
     except:
         abort(500)
     
     return jsonify({
         'success': True, 
-        'drinks': drink.long()
+        'drinks': [drink[0].long()]
     }), 200
 
 
