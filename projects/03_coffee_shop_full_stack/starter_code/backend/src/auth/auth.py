@@ -42,7 +42,6 @@ def get_token_auth_header():
     parts = auth_header.split() 
 
     if parts[0].lower() != 'bearer':
-        print("Bearer issue")
         raise AuthError({
             'code': 'invalid_header', 
             'description': 'Authorization header must start with Bearer'

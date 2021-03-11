@@ -119,15 +119,15 @@ def drink_update(payload, id):
     drink = Drink.query.filter(Drink.id == id).all()
 
     if drink is None:
-        print("ID not found")
+        #ID not found
         abort(404)
 
     try:
-        drink[0].title = title
-        drink[0].recipe = recipe
+        drink[0].title = title if type(title) == str else json.dumps(title)
+        drink[0].recipe = recipe if type(recipe) == str else json.dumps(recipe)
         drink[0].update()
-        print("Updated!")
-    except:
+    except Exception as e:
+        print(e)
         abort(500)
     
     return jsonify({
@@ -155,13 +155,12 @@ def drinks_delete(payload, id):
     drink = Drink.query.filter(Drink.id == id).first()
 
     if drink is None:
-        print("ID not found")
         abort(404)
 
     try:
         drink.delete()
-        print("Deleted!")
-    except:
+    except Exception as e:
+        print(e)
         abort(500)
     
     return jsonify({
@@ -222,7 +221,6 @@ def not_found(error):
 
 @app.errorhandler(AuthError)
 def authentication_failed(e):
-    print("AuthError ran")
     print(AuthError)
     print(e.status_code)
     return jsonify({
