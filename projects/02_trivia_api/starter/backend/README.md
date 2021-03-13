@@ -87,7 +87,66 @@ GET '/categories'
 '5' : "Entertainment",
 '6' : "Sports"}
 
-```
+GET '/questions'
+- Fetches a subset of questions based on the page number, along with the number of questions in the database, a dictionary of categories, and a None value for current category
+- Request arguments: Page # optional
+- Returns: An object with 
+{'success': True,
+'questions': List of questions,
+'total_questions': Number of questions in the database,
+'categories': Dictionary of category_id : Category name
+'currentCategory': None}
+
+DELETE '/questions/<int:id>'
+- Deletes a question based on its ID
+- Request arguments: question id to be deleted
+- Returns: An object of {'success': True} if the delete action runs successfully
+
+POST '/questions'
+- Creates a new question
+- Request arguments: Attributes of the question to be added to the database in the format:
+{
+    question: Question as string, 
+    answer: Answer as string,
+    difficulty: Difficulty from 1-5 as Integer,
+    category: Category as Integer
+}
+- Returns: An object of {'success': True} if the question is created successfully
+
+POST '/questions/search'
+- Fetches one or more questions based on the search string provided. End point searches if that string is present anywhere in the question string. Search string is case insensitive
+- Request arguments: Search string in the object {'searchTerm': Search term as a string}
+- Returns: JSON Object with questions that include the search string in the format
+{
+    'success': True,
+    'questions': List of relevant questions,
+    'totalQuestions': Integer length of questions,
+    'currentCategory': None
+}
+
+GET '/categories/<id>/questions'
+- Fetches list of questions from a given category
+- Request arguments: id of the category in the URL
+- Returns: List of questions and relevant data in the following JSON object:
+{
+    'success': True,
+    'questions': list of questions,
+    'totalQuestions': # of questions as integer,
+    'currentCategory': None
+}
+
+POST '/quizzes'
+- Fetches a list of questions to play the quiz game based on provided category and previous questions
+- Request arguments: Category for the quiz and a list of previous questions as 
+{
+    quiz_category: integer of the quiz category, 
+    previous_questions: list of the previous questions used in the quiz
+}
+- Returns: A JSON object with a random question from the specified category, but not in the list of previous questions
+{
+    'success': True, 
+    'question': random_question
+}
 
 
 ## Testing
